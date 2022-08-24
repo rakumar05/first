@@ -1,0 +1,53 @@
+Answer of Question 1:select b.userid, count (*) as "no of purchased"
+from bill b
+group by b.userid 
+
+Answer of Question 2: select medid,name  from medicine where manufacturer='HL' or manufacturer='Cipla'
+
+Answer of Question 3:select b.medid, count (b.billid) as "no of bills"
+from bill b
+group by b.medid
+
+Answer of Question 4:
+
+select m.medid,m.name
+from medicine m
+join bill b
+on b.medid=m.medid
+where trunc(sysdate,'month')=trunc(b.billdate,'month')
+group by m.medid,m.name;
+
+Answer of Question 5:
+Select name,manufacturer,(MRP - PurchasePrice)
+FROM Medicine
+where (ExpiryDate - ManufactureDate)<= 1
+
+ans q 6:
+
+Select username, phone, email, name , manufacturer, BillId
+From medicine, customers, bill
+Where BillId is not null;
+
+
+Answer of Question 7: select b.billid,c.userid,lower(substr(c.username,length(c.username)-4,4)) as "Name part",c.phone,concat(upper(substr(c.email,1,1)),lower(substr(c.email,2,length(c.email)))) email
+from customers c
+join bill b
+on c.userid=b.userid;
+
+Answer of Question 8:
+ Select name,manufacturer
+FROM Medicine
+where (((MRP - PurchasePrice)/PurchasePrice)*100)>=10
+
+
+Answer of Question 9:
+
+select B.UserId,C.UserName,C.Phone, C.Email ,COUNT(Distinct B.MedId) as "Purchase Count" from Bill B, Customers C
+where B.UserId = C.UserId
+group by B.UserId,C.UserName,C.Phone, C.Email
+having count(distinct b.medid)>1
+
+
+Answer of Question 10:Create view vw_Medicine as
+select MEDID,(MRP - PURCHASEPRICE) As Profit,(((MRP - PURCHASEPRICE)/purchaseprice)*100) as "PROFIT PERCENTAGE", (EXPIRYDATE - MANUFACTUREDATE) As ExpirationDURATION
+from Medicine
